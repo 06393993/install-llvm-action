@@ -127,12 +127,12 @@ async function install(options: Options): Promise<void> {
   const archive = await tc.downloadTool(url, "", options.auth ?? undefined);
 
   let exit;
-  if (os === "win32") {
+  if (os === "win32" && !io.which("tar")) {
     exit = await exec.exec("7z", ["x", archive, `-o${options.directory}`, "-y"]);
   } else {
     const directory = options.directory ?? "";
     await io.mkdirP(directory);
-    exit = await exec.exec("tar", ["xf", archive, "-C", directory, "--strip-components=1"]);
+    exit = await exec.exec("tar", ["xvf", archive, "-C", directory, "--strip-components=1"]);
   }
 
   if (exit !== 0) {

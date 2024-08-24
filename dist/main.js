@@ -24021,7 +24021,7 @@ async function $73b874f14e970995$var$install(options) {
     console.log(`Downloading and extracting '${url}'...`);
     const archive = await $e2d7a47000ccff78$exports.downloadTool(url, "", options.auth ?? undefined);
     let exit;
-    if (os === "win32") exit = await $f2fb9ed99c4d106b$exports.exec("7z", [
+    if (os === "win32" && !$7C30t.which("tar")) exit = await $f2fb9ed99c4d106b$exports.exec("7z", [
         "x",
         archive,
         `-o${options.directory}`,
@@ -24031,7 +24031,7 @@ async function $73b874f14e970995$var$install(options) {
         const directory = options.directory ?? "";
         await $7C30t.mkdirP(directory);
         exit = await $f2fb9ed99c4d106b$exports.exec("tar", [
-            "xf",
+            "xvf",
             archive,
             "-C",
             directory,
